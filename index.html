@@ -25,6 +25,25 @@
             --color-control-panel: #d06f4c;
         }
 
+        .film-strip {
+            position: fixed;
+            top: 0;
+            width: 80px; /* Sesuaikan lebar strip */
+            height: 100vh;
+            background-image: url('filmstrip.svg');
+            background-repeat: repeat-y;
+            background-size: 80px auto;
+            z-index: -1;
+            animation: scroll-vertical 10s linear infinite;
+        }
+        .strip-left { left: 0; }
+        .strip-right { right: 0; }
+
+        @keyframes scroll-vertical {
+            from { background-position: 0 0; }
+            to { background-position: 0 100vh; }
+        }
+
         html,
         body {
             overflow: auto;
@@ -244,6 +263,9 @@
 
 <body>
 
+    <div class="film-strip strip-left"></div>
+    <div class="film-strip strip-right"></div>
+    
     <h1>THEATER SEAT</h1>
     <div class="subtitle">MORE THAN A PERFORMANCE</div>
 
