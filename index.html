@@ -7,33 +7,34 @@
     <title>Theater</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
+        @font-face {
+            font-family: 'WednesdayMatineeShadow-8RvM';
+            src: url('WednesdayMatineeShadow-8RvM.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         :root {
-            --color-bg: #ffffff;
-            --color-panel: #2a2a35;
-            --color-available: #2e7d32;
-            /* Green if available */
-            --color-selected: #fbc02d;
-            /* Yellow if selected */
-            --color-occupied: #c62828;
-            /* Red if occupied */
+            --color-bg: #3f4e51;
+            --color-panel: #66746c;
+            --color-available: #4AAF50;
+            --color-selected: #f2cd26;
+            --color-occupied: #C82729;
             --color-text: #ffffff;
-            --color-text-muted: #a4b0be;
-            --color-stage: #000000;
+            --color-stage: #B6433E;
+            --color-control-panel: #d06f4c;
         }
 
         html,
         body {
             overflow: auto;
             scrollbar-width: none;
-            /* Firefox */
             -ms-overflow-style: none;
-            /* IE & Edge lama */
         }
 
         html::-webkit-scrollbar,
         body::-webkit-scrollbar {
             display: none;
-            /* Chrome, Safari, Edge */
         }
 
         * {
@@ -55,20 +56,21 @@
 
         h1 {
             margin-bottom: 5px;
-            font-size: 24px;
+            font-size: 48px;
             letter-spacing: 1px;
             text-align: center;
-            color: #cd9f2a;
+            color: var(--color-text);
+            font-family: 'WednesdayMatineeShadow-8RvM', sans-serif;
         }
 
         .subtitle {
-            color: #787c4b;
+            color: var(--color-text);
             font-size: 14px;
             margin-bottom: 30px;
             text-align: center;
+            font-weight: bold;
         }
 
-        /* Legend */
         .legend {
             display: flex;
             gap: 20px;
@@ -92,7 +94,6 @@
             border-radius: 4px;
         }
 
-        /* Theater Stage Wrapper */
         .theater-stage-wrapper {
             display: flex;
             flex-direction: column;
@@ -103,7 +104,6 @@
             padding: 0 100px;
         }
 
-        /* Container Baru untuk menyejajarkan Entrance dan Stage */
         .stage-area-container {
             display: flex;
             align-items: center;
@@ -113,46 +113,36 @@
             margin-bottom: 50px;
         }
 
-        /* Entrance sekarang relative terhadap container barunya */
         .entrance {
             position: absolute;
             left: 0;
             width: 80px;
             height: 40px;
-            border: 2px dashed #ff5252;
+            border: 2px dashed var(--color-available);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             font-size: 11px;
-            color: #ff5252;
+            color: var(--color-available);
             font-weight: bold;
             border-radius: 5px;
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0% {
-                opacity: 0.6;
-            }
-
-            50% {
-                opacity: 1;
-            }
-
-            100% {
-                opacity: 0.6;
-            }
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
         }
 
-        /* Theater Stage */
         .stage {
             width: 100%;
             max-width: 400px;
             height: 25px;
             background: var(--color-stage);
             border-radius: 4px;
-            box-shadow: 0 8px 25px rgba(210, 204, 192, 0.3);
+            box-shadow: 0 8px 25px rgba(236, 172, 142, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -160,19 +150,18 @@
 
         .stage-text {
             font-size: 12px;
-            color: #ffffff;
+            color: var(--color-text);
             font-weight: bold;
             letter-spacing: 5px;
             text-transform: uppercase;
         }
 
-        /* Theater Container */
         .theater-container {
             display: flex;
             align-items: flex-start;
             gap: 40px;
             padding: 15px 55px;
-            background: rgba(0, 0, 0, 0.2);
+            background: #ffffff;
             border-radius: 10px;
         }
 
@@ -182,7 +171,6 @@
             gap: 10px;
         }
 
-        /* Seat Styling */
         .seat {
             width: 35px;
             height: 35px;
@@ -197,76 +185,40 @@
             user-select: none;
         }
 
-        .seat.available {
-            background-color: var(--color-available);
-        }
+        .seat.available { background-color: var(--color-available); }
+        .seat.available:hover { transform: scale(1.1); box-shadow: 0 0 8px var(--color-available); }
+        .seat.selected { background-color: var(--color-selected); color: #fff; }
+        .seat.occupied { background-color: var(--color-occupied); color: #fff; }
+        .seat.occupied:hover { transform: scale(1.1); box-shadow: 0 0 8px var(--color-occupied); }
 
-        .seat.available:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 8px rgba(46, 125, 50, 0.6);
-        }
-
-        .seat.selected {
-            background-color: var(--color-selected);
-            color: #000;
-        }
-
-        /* Occupied seat style */
-        .seat.occupied {
-            background-color: var(--color-occupied);
-            color: #fff;
-        }
-
-        .seat.occupied:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 8px rgba(198, 40, 40, 0.6);
-        }
-
-        /* Area kontainer bawah dengan 3 kolom agar panel konfirmasi tetap pas di tengah */
         .bottom-control-area {
             display: grid;
             grid-template-columns: 160px 1fr 160px;
             align-items: flex-end;
             width: 100%;
             max-width: 900px;
-            margin-top: 20px;
+            margin-top: 150px;
             gap: 20px;
         }
 
-        /* Elemen kosong sebagai penyeimbang layout di kiri */
-        .bottom-spacer {
-            width: 100%;
-        }
+        .bottom-spacer { width: 100%; }
 
-        /* Action Panel */
         .action-panel {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 15px;
             width: 100%;
-            background: var(--color-panel);
+            background: var(--color-stage);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
         }
 
-        .stats {
-            font-size: 15px;
-            text-align: center;
-            line-height: 1.6;
-        }
+        .stats { font-size: 15px; text-align: center; line-height: 1.6; }
+        .stats span { font-weight: bold; color: var(--color-selected); }
 
-        .stats span {
-            font-weight: bold;
-            color: var(--color-selected);
-        }
-
-        .btn-container {
-            display: flex;
-            width: 100%;
-            max-width: 300px;
-        }
+        .btn-container { display: flex; width: 100%; max-width: 300px; }
 
         .btn {
             width: 100%;
@@ -281,37 +233,12 @@
             letter-spacing: 0.5px;
         }
 
-        /* Tombol Confirm (Biru) */
-        .btn-confirm {
-            background-color: #3867d6;
-            color: white;
-        }
-
-        .btn-confirm:hover {
-            background-color: #4b7bec;
-        }
-
-        /* Tombol Reset (Merah) */
-        .btn-reset {
-            background-color: var(--color-occupied);
-            color: white;
-            white-space: nowrap;
-        }
-
-        .btn-reset:hover {
-            background-color: #e74c3c;
-        }
-
-        /* Kustomisasi tema gelap untuk SweetAlert2 */
-        .swal2-popup {
-            background: #2a2a35 !important;
-            color: #ffffff !important;
-        }
-
-        .swal2-title,
-        .swal2-html-container {
-            color: #ffffff !important;
-        }
+        .btn-confirm { background-color: var(--color-available); color: white; }
+        .btn-confirm:hover { background-color: var(--color-bg); }
+        .btn-reset { background-color: var(--color-occupied); color: white; white-space: nowrap; }
+        .btn-reset:hover { background-color: #8a332e; }
+        .swal2-popup { background: #2a2a35 !important; color: #ffffff !important; }
+        .swal2-title, .swal2-html-container { color: #ffffff !important; }
     </style>
 </head>
 
@@ -375,7 +302,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, set, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // TODO: GANTI isi objek di bawah ini dengan konfigurasi dari Firebase Console Anda sendiri!
         const firebaseConfig = {
             apiKey: "AIzaSyDcCQ4tvGlKN2_GDWtG4P_EYlnSpFQwukM",
             authDomain: "theatertrilogi-643d2.firebaseapp.com",
@@ -387,7 +313,6 @@
             measurementId: "G-TR7020FWNJ"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const seatsRef = ref(db, 'theaterSeats');
@@ -446,30 +371,19 @@
                         text: `Do you want to cancel the reservation for seat ${seatId}?`,
                         icon: 'warning',
                         showCancelButton: true,
-                        confirmButtonColor: '#3867d6',
-                        cancelButtonColor: '#ff5252',
+                        confirmButtonColor: '#b6433e',
+                        cancelButtonColor: '#66746c',
                         confirmButtonText: 'Yes, cancel it!'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            // Menghapus data kursi spesifik di Firebase
-                            remove(ref(db, `theaterSeats/${seatId}`)).then(() => {
-                                Swal.fire({
-                                    title: 'Cancelled!',
-                                    text: `Reservation for ${seatId} has been removed.`,
-                                    icon: 'success',
-                                    timer: 1500,
-                                    showConfirmButton: false
-                                });
-                            });
+                            remove(ref(db, `theaterSeats/${seatId}`));
                         }
                     });
                 }
                 else if (seat.classList.contains('selected')) {
-                    // Batalkan pilihan (Kembali ke available)
                     remove(ref(db, `theaterSeats/${seatId}`));
                 }
                 else {
-                    // Pilih kursi (Set status menjadi selected di Firebase)
                     set(ref(db, `theaterSeats/${seatId}`), 'selected');
                 }
             });
@@ -489,77 +403,33 @@
             const selectedKeys = Object.keys(seatData).filter(key => seatData[key] === 'selected');
 
             if (selectedKeys.length === 0) {
-                Swal.fire({
-                    title: 'No Seats Selected',
-                    text: 'Please click and select available seats first!',
-                    icon: 'info',
-                    confirmButtonColor: '#3867d6'
-                });
+                Swal.fire({ title: 'No Seats Selected', text: 'Please click and select available seats first!', icon: 'info' });
                 return;
             }
 
-            Swal.fire({
-                title: 'Confirm Your Order?',
-                text: `You are about to reserve ${selectedKeys.length} seat(s): ${selectedKeys.join(', ')}.`,
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#2e7d32',
-                cancelButtonColor: '#ff5252',
-                confirmButtonText: 'Yes, Confirm Reservation!',
-                cancelButtonText: 'No, Go Back'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const updates = {};
-                    selectedKeys.forEach(id => {
-                        updates[id] = 'occupied';
-                    });
-
-                    // Update multi-node ke Firebase sekaligus
-                    update(seatsRef, updates).then(() => {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: 'Seats successfully reserved!',
-                            icon: 'success',
-                            confirmButtonColor: '#3867d6'
-                        });
-                    });
-                }
-            });
+            const updates = {};
+            selectedKeys.forEach(id => { updates[id] = 'occupied'; });
+            update(seatsRef, updates);
         });
 
         resetBtn.addEventListener('click', () => {
             Swal.fire({
                 title: 'Are you sure?',
-                text: "This will reset all seats and clear the Cloud database!",
+                text: "This will reset all seats!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#c62828',
-                cancelButtonColor: '#4b6584',
+                confirmButtonColor: '#b6433e',
                 confirmButtonText: 'Yes, reset all!'
             }).then((result) => {
-                if (result.isConfirmed) {
-                    // Menghapus seluruh node 'theaterSeats' di Firebase
-                    remove(seatsRef).then(() => {
-                        Swal.fire({
-                            title: 'Reset Completed',
-                            text: 'All seats are now available.',
-                            icon: 'success',
-                            timer: 1500,
-                            showConfirmButton: false
-                        });
-                    });
-                }
+                if (result.isConfirmed) { remove(seatsRef); }
             });
         });
 
-        // KUNCI REALTIME: Mendengarkan perubahan data di Firebase secara langsung (Realtime listener)
         onValue(seatsRef, (snapshot) => {
             const data = snapshot.val();
-            seatData = data || {}; // Jika data kosong/reset, set objek kosong
-            renderTheater(); // Render ulang tampilan otomatis setiap ada data baru masuk
+            seatData = data || {};
+            renderTheater();
         });
-
     </script>
 </body>
-
 </html>
