@@ -8,15 +8,22 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         @font-face {
-            font-family: 'WednesdayMatineeShadow-8RvM';
-            src: url('WednesdayMatineeShadow-8RvM.ttf') format('truetype');
+            font-family: 'Perandory-Regular';
+            src: url('Perandory-Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Perandory-Condensed';
+            src: url('Perandory-Condensed.otf') format('opentype');
             font-weight: normal;
             font-style: normal;
         }
 
         :root {
-            --color-bg: #3f4e51;
-            --color-panel: #66746c;
+            --color-bg: #891018;
+            --color-panel: #FBAA1A;
             --color-available: #4AAF50;
             --color-selected: #f2cd26;
             --color-occupied: #C82729;
@@ -28,12 +35,12 @@
         .film-strip {
             position: fixed;
             top: 0;
-            width: 80px; /* Sesuaikan lebar strip */
+            width: 80px; 
             height: 100vh;
             background-image: url('filmstrip.svg');
             background-repeat: repeat-y;
             background-size: 80px auto;
-            z-index: -1;
+            z-index: 2;
             animation: scroll-vertical 10s linear infinite;
         }
         .strip-left { left: 0; }
@@ -78,22 +85,23 @@
             font-size: 48px;
             letter-spacing: 1px;
             text-align: center;
-            color: var(--color-text);
-            font-family: 'WednesdayMatineeShadow-8RvM', sans-serif;
+            color: var(--color-panel);
+            font-family: 'Perandory-Regular', sans-serif;
         }
 
         .subtitle {
             color: var(--color-text);
-            font-size: 14px;
+            font-size: 30px;
+            letter-spacing: 2px;
             margin-bottom: 30px;
             text-align: center;
-            font-weight: bold;
+            font-family: 'Perandory-Condensed', sans-serif;
         }
 
         .legend {
             display: flex;
             gap: 20px;
-            background: var(--color-panel);
+            background: var(--color-control-panel);
             padding: 15px 25px;
             border-radius: 8px;
             margin-bottom: 40px;
@@ -159,7 +167,7 @@
             width: 100%;
             max-width: 400px;
             height: 25px;
-            background: var(--color-stage);
+            background: var(--color-panel);
             border-radius: 4px;
             box-shadow: 0 8px 25px rgba(236, 172, 142, 0.3);
             display: flex;
@@ -178,7 +186,7 @@
         .theater-container {
             display: flex;
             align-items: flex-start;
-            gap: 40px;
+            gap: 15px;
             padding: 15px 55px;
             background: #ffffff;
             border-radius: 10px;
@@ -188,6 +196,21 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
+        }
+        
+        .row-labels {
+            display: grid;
+            gap: 10px;
+            color: #555;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .row-label {
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
         }
 
         .seat {
@@ -210,13 +233,38 @@
         .seat.occupied { background-color: var(--color-occupied); color: #fff; }
         .seat.occupied:hover { transform: scale(1.1); box-shadow: 0 0 8px var(--color-occupied); }
 
+        /* CSS Marquee */
+        .marquee-container {
+            width: 100%;
+            margin-top: 20px;
+            overflow: hidden;
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            z-index: 1;
+        }
+        .marquee-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+            font-family: 'Perandory-Condensed', sans-serif;
+            font-size: 50px;
+            color: var(--color-panel);
+            letter-spacing: 5px;
+        }
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
         .bottom-control-area {
             display: grid;
             grid-template-columns: 160px 1fr 160px;
             align-items: flex-end;
             width: 100%;
             max-width: 900px;
-            margin-top: 150px;
+            margin-top: 50px;
             gap: 20px;
         }
 
@@ -266,7 +314,7 @@
     <div class="film-strip strip-left"></div>
     <div class="film-strip strip-right"></div>
     
-    <h1>THEATER SEAT</h1>
+    <h1>Trilogi Theater'24</h1>
     <div class="subtitle">MORE THAN A PERFORMANCE</div>
 
     <div class="legend">
@@ -298,8 +346,13 @@
 
         <div class="theater-container">
             <div class="block" id="block-left"></div>
+            <div class="row-labels" id="row-labels"></div>
             <div class="block" id="block-right"></div>
         </div>
+    </div>
+
+    <div class="marquee-container">
+        <div class="marquee-text">WELCOME TO TRILOGI THEATER '24 - ENJOY THE SHOW!</div>
     </div>
 
     <div class="bottom-control-area">
@@ -345,6 +398,7 @@
 
         const blockLeftContainer = document.getElementById('block-left');
         const blockRightContainer = document.getElementById('block-right');
+        const rowLabelsContainer = document.getElementById('row-labels');
         const selectedCountEl = document.getElementById('selected-count');
         const occupiedCountEl = document.getElementById('occupied-count');
         const confirmBtn = document.getElementById('confirm-btn');
@@ -355,9 +409,15 @@
         function renderTheater() {
             blockLeftContainer.innerHTML = '';
             blockRightContainer.innerHTML = '';
+            rowLabelsContainer.innerHTML = '';
 
             for (let r = 0; r < rows; r++) {
                 const rowName = rowLabels[r];
+
+                const labelEl = document.createElement('div');
+                labelEl.classList.add('row-label');
+                labelEl.innerText = rowName;
+                rowLabelsContainer.appendChild(labelEl);
 
                 for (let c = 1; c <= colsPerBlock; c++) {
                     const seatId = `${rowName}${c}`;
@@ -375,7 +435,7 @@
         function createSeatElement(seatId) {
             const seat = document.createElement('div');
             seat.classList.add('seat');
-            seat.innerText = seatId;
+            seat.innerText = seatId; 
             seat.dataset.id = seatId;
 
             if (seatData[seatId] === 'occupied') {
@@ -429,9 +489,21 @@
                 return;
             }
 
-            const updates = {};
-            selectedKeys.forEach(id => { updates[id] = 'occupied'; });
-            update(seatsRef, updates);
+            Swal.fire({
+                title: 'Confirm Order',
+                text: `Are you sure you want to book these ${selectedKeys.length} seats?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#4AAF50',
+                cancelButtonColor: '#C82729',
+                confirmButtonText: 'Yes, Confirm!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const updates = {};
+                    selectedKeys.forEach(id => { updates[id] = 'occupied'; });
+                    update(seatsRef, updates);
+                }
+            });
         });
 
         resetBtn.addEventListener('click', () => {
