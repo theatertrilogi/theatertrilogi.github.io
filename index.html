@@ -234,7 +234,7 @@
 
         .marquee-container {
             width: 100%;
-            margin-top: 20px;
+            margin-top: 35px;
             overflow: hidden;
             background: rgba(0,0,0,0.2);
             padding: 10px;
@@ -343,7 +343,7 @@
         </div>
 
         <div class="theater-container">
-            <div class="block" id="block-left" style="grid-template-columns: repeat(5, 1fr);"></div>
+            <div class="block" id="block-left" style="grid-template-columns: repeat(6, 1fr);"></div>
             <div class="row-labels" id="row-labels"></div>
             <div class="block" id="block-right" style="grid-template-columns: repeat(6, 1fr);"></div>
         </div>
@@ -390,7 +390,6 @@
         const db = getDatabase(app);
         const seatsRef = ref(db, 'theaterSeats');
 
-        // A di bawah (indeks 0), I di atas (indeks 8)
         const rows = 9;
         const rowLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
 
@@ -404,14 +403,12 @@
 
         let seatData = {};
 
-       function renderTheater() {
+        function renderTheater() {
             blockLeftContainer.innerHTML = '';
             blockRightContainer.innerHTML = '';
             rowLabelsContainer.innerHTML = '';
 
-            // Render dari baris I ke A (atas ke bawah)
             for (let r = rows - 1; r >= 0; r--) {
-                // TAMBAHKAN KONDISI INI: Jika r adalah 7 (H) atau 8 (I), lewati
                 if (r === 7 || r === 8) continue;
 
                 const rowName = rowLabels[r];
@@ -421,14 +418,14 @@
                 labelEl.innerText = rowName;
                 rowLabelsContainer.appendChild(labelEl);
 
-                // Left Block: 5 seats
-                for (let c = 1; c <= 5; c++) {
+                // Left Block: 6 seats (1 to 6)
+                for (let c = 1; c <= 6; c++) {
                     const seatId = `${rowName}${c}`;
                     blockLeftContainer.appendChild(createSeatElement(seatId));
                 }
 
-                // Right Block: 6 seats (Start ID 6 to 11)
-                for (let c = 6; c <= 11; c++) {
+                // Right Block: 6 seats (7 to 12)
+                for (let c = 7; c <= 12; c++) {
                     const seatId = `${rowName}${c}`;
                     blockRightContainer.appendChild(createSeatElement(seatId));
                 }
