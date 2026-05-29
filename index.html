@@ -126,7 +126,7 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
             position: relative;
             padding: 0 100px;
         }
@@ -187,14 +187,13 @@
             display: flex;
             align-items: flex-start;
             gap: 15px;
-            padding: 15px 55px;
+            padding: 15px 30px;
             background: #ffffff;
             border-radius: 10px;
         }
 
         .block {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
             gap: 10px;
         }
         
@@ -233,7 +232,6 @@
         .seat.occupied { background-color: var(--color-occupied); color: #fff; }
         .seat.occupied:hover { transform: scale(1.1); box-shadow: 0 0 8px var(--color-occupied); }
 
-        /* CSS Marquee */
         .marquee-container {
             width: 100%;
             margin-top: 20px;
@@ -248,7 +246,7 @@
             display: inline-block;
             padding-left: 100%;
             animation: marquee 15s linear infinite;
-            font-family: 'Perandory-Condensed', sans-serif;
+            font-family: 'Perandory-Regular', sans-serif;
             font-size: 50px;
             color: var(--color-panel);
             letter-spacing: 5px;
@@ -345,9 +343,9 @@
         </div>
 
         <div class="theater-container">
-            <div class="block" id="block-left"></div>
+            <div class="block" id="block-left" style="grid-template-columns: repeat(5, 1fr);"></div>
             <div class="row-labels" id="row-labels"></div>
-            <div class="block" id="block-right"></div>
+            <div class="block" id="block-right" style="grid-template-columns: repeat(6, 1fr);"></div>
         </div>
     </div>
 
@@ -361,7 +359,7 @@
         <div class="action-panel">
             <div class="stats">
                 Currently selected seats: <span id="selected-count">0</span><br>
-                Total occupied seats (Red): <span id="occupied-count">0</span> / 72
+                Total occupied seats (Red): <span id="occupied-count">0</span> / 99
             </div>
             <div class="btn-container">
                 <button class="btn btn-confirm" id="confirm-btn">Confirm Order</button>
@@ -392,8 +390,8 @@
         const db = getDatabase(app);
         const seatsRef = ref(db, 'theaterSeats');
 
+        // A di bawah (indeks 0), I di atas (indeks 8)
         const rows = 9;
-        const colsPerBlock = 4;
         const rowLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
 
         const blockLeftContainer = document.getElementById('block-left');
@@ -406,12 +404,16 @@
 
         let seatData = {};
 
-        function renderTheater() {
+       function renderTheater() {
             blockLeftContainer.innerHTML = '';
             blockRightContainer.innerHTML = '';
             rowLabelsContainer.innerHTML = '';
 
-            for (let r = 0; r < rows; r++) {
+            // Render dari baris I ke A (atas ke bawah)
+            for (let r = rows - 1; r >= 0; r--) {
+                // TAMBAHKAN KONDISI INI: Jika r adalah 7 (H) atau 8 (I), lewati
+                if (r === 7 || r === 8) continue;
+
                 const rowName = rowLabels[r];
 
                 const labelEl = document.createElement('div');
@@ -419,12 +421,14 @@
                 labelEl.innerText = rowName;
                 rowLabelsContainer.appendChild(labelEl);
 
-                for (let c = 1; c <= colsPerBlock; c++) {
+                // Left Block: 5 seats
+                for (let c = 1; c <= 5; c++) {
                     const seatId = `${rowName}${c}`;
                     blockLeftContainer.appendChild(createSeatElement(seatId));
                 }
 
-                for (let c = 5; c <= 8; c++) {
+                // Right Block: 6 seats (Start ID 6 to 11)
+                for (let c = 6; c <= 11; c++) {
                     const seatId = `${rowName}${c}`;
                     blockRightContainer.appendChild(createSeatElement(seatId));
                 }
