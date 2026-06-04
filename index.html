@@ -35,7 +35,7 @@
         .film-strip {
             position: fixed;
             top: 0;
-            width: 80px; 
+            width: 80px;
             height: 100vh;
             background-image: url('filmstrip.svg');
             background-repeat: repeat-y;
@@ -43,12 +43,23 @@
             z-index: 2;
             animation: scroll-vertical 10s linear infinite;
         }
-        .strip-left { left: 0; }
-        .strip-right { right: 0; }
+
+        .strip-left {
+            left: 0;
+        }
+
+        .strip-right {
+            right: 0;
+        }
 
         @keyframes scroll-vertical {
-            from { background-position: 0 0; }
-            to { background-position: 0 100vh; }
+            from {
+                background-position: 0 0;
+            }
+
+            to {
+                background-position: 0 100vh;
+            }
         }
 
         html,
@@ -91,7 +102,7 @@
 
         .subtitle {
             color: var(--color-text);
-            font-size: 30px;
+            font-size: 15px;
             letter-spacing: 2px;
             margin-bottom: 30px;
             text-align: center;
@@ -158,9 +169,17 @@
         }
 
         @keyframes pulse {
-            0% { opacity: 0.6; }
-            50% { opacity: 1; }
-            100% { opacity: 0.6; }
+            0% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.6;
+            }
         }
 
         .stage {
@@ -196,7 +215,7 @@
             display: grid;
             gap: 10px;
         }
-        
+
         .row-labels {
             display: grid;
             gap: 10px;
@@ -204,6 +223,7 @@
             font-weight: bold;
             margin-top: 5px;
         }
+
         .row-label {
             height: 35px;
             display: flex;
@@ -226,22 +246,41 @@
             user-select: none;
         }
 
-        .seat.available { background-color: var(--color-available); }
-        .seat.available:hover { transform: scale(1.1); box-shadow: 0 0 8px var(--color-available); }
-        .seat.selected { background-color: var(--color-selected); color: #fff; }
-        .seat.occupied { background-color: var(--color-occupied); color: #fff; }
-        .seat.occupied:hover { transform: scale(1.1); box-shadow: 0 0 8px var(--color-occupied); }
+        .seat.available {
+            background-color: var(--color-available);
+        }
+
+        .seat.available:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 8px var(--color-available);
+        }
+
+        .seat.selected {
+            background-color: var(--color-selected);
+            color: #fff;
+        }
+
+        .seat.occupied {
+            background-color: var(--color-occupied);
+            color: #fff;
+        }
+
+        .seat.occupied:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 8px var(--color-occupied);
+        }
 
         .marquee-container {
             width: 100%;
             margin-top: 35px;
             overflow: hidden;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.2);
             padding: 10px;
             border-radius: 5px;
             white-space: nowrap;
             z-index: 1;
         }
+
         .marquee-text {
             display: inline-block;
             padding-left: 100%;
@@ -251,9 +290,15 @@
             color: var(--color-panel);
             letter-spacing: 5px;
         }
+
         @keyframes marquee {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); }
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(-100%, 0);
+            }
         }
 
         .bottom-control-area {
@@ -266,7 +311,9 @@
             gap: 20px;
         }
 
-        .bottom-spacer { width: 100%; }
+        .bottom-spacer {
+            width: 100%;
+        }
 
         .action-panel {
             display: flex;
@@ -280,10 +327,22 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
         }
 
-        .stats { font-size: 15px; text-align: center; line-height: 1.6; }
-        .stats span { font-weight: bold; color: var(--color-selected); }
+        .stats {
+            font-size: 15px;
+            text-align: center;
+            line-height: 1.6;
+        }
 
-        .btn-container { display: flex; width: 100%; max-width: 300px; }
+        .stats span {
+            font-weight: bold;
+            color: var(--color-selected);
+        }
+
+        .btn-container {
+            display: flex;
+            width: 100%;
+            max-width: 300px;
+        }
 
         .btn {
             width: 100%;
@@ -298,12 +357,100 @@
             letter-spacing: 0.5px;
         }
 
-        .btn-confirm { background-color: var(--color-available); color: white; }
-        .btn-confirm:hover { background-color: var(--color-bg); }
-        .btn-reset { background-color: var(--color-occupied); color: white; white-space: nowrap; }
-        .btn-reset:hover { background-color: #8a332e; }
-        .swal2-popup { background: #2a2a35 !important; color: #ffffff !important; }
-        .swal2-title, .swal2-html-container { color: #ffffff !important; }
+        .btn-confirm {
+            background-color: var(--color-available);
+            color: white;
+        }
+
+        .btn-confirm:hover {
+            background-color: var(--color-bg);
+        }
+
+        .btn-reset {
+            background-color: var(--color-occupied);
+            color: white;
+            white-space: nowrap;
+        }
+
+        .btn-reset:hover {
+            background-color: #8a332e;
+        }
+
+        .swal2-popup {
+            background: #2a2a35 !important;
+            color: #ffffff !important;
+        }
+
+        .swal2-title,
+        .swal2-html-container {
+            color: #ffffff !important;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+            margin-bottom: 25px;
+            z-index: 3;
+        }
+
+        .header-text-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .header-text-group h1 {
+            margin-bottom: 0;
+            text-align: left;
+        }
+
+        .header-text-group .subtitle {
+            margin-bottom: 0;
+            text-align: left;
+        }
+
+        .theater-logo {
+            height: 100px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+            animation: theater-logo-anim 6s ease-in-out infinite;
+            transition: transform 0.3s ease;
+        }
+
+        .theater-logo:hover {
+            transform: scale(1.08);
+        }
+
+        @keyframes theater-logo-anim {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 5px rgba(251, 170, 26, 0.3));
+            }
+
+            25% {
+                transform: translateY(-5px) rotate(1deg);
+                filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 12px rgba(251, 170, 26, 0.6));
+            }
+
+            50% {
+                transform: translateY(-8px) rotate(-1deg);
+                filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3)) drop-shadow(0 0 20px rgba(251, 170, 26, 0.8));
+            }
+
+            75% {
+                transform: translateY(-4px) rotate(1deg);
+                filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 12px rgba(251, 170, 26, 0.6));
+            }
+
+            100% {
+                transform: translateY(0) rotate(0deg);
+                filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 5px rgba(251, 170, 26, 0.3));
+            }
+        }
     </style>
 </head>
 
@@ -311,9 +458,14 @@
 
     <div class="film-strip strip-left"></div>
     <div class="film-strip strip-right"></div>
-    
-    <h1>Trilogi Theater</h1>
-    <div class="subtitle">PERFORMANCE BY GROUP 1</div>
+
+    <header class="header-container">
+        <img src="logo-theater.png" alt="Trilogi Theater Logo" class="theater-logo">
+        <div class="header-text-group">
+            <h1>MALIN KUNDANG</h1>
+            <div class="subtitle">Performed by Group 1</div>
+        </div>
+    </header>
 
     <div class="legend">
         <div class="legend-item">
@@ -436,7 +588,7 @@
         function createSeatElement(seatId) {
             const seat = document.createElement('div');
             seat.classList.add('seat');
-            seat.innerText = seatId; 
+            seat.innerText = seatId;
             seat.dataset.id = seatId;
 
             if (seatData[seatId] === 'occupied') {
@@ -527,4 +679,5 @@
         });
     </script>
 </body>
+
 </html>
