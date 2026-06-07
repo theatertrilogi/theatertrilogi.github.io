@@ -495,9 +495,9 @@
         </div>
 
         <div class="theater-container">
-            <div class="block" id="block-left" style="grid-template-columns: repeat(6, 1fr);"></div>
+            <div class="block" id="block-left" style="grid-template-columns: repeat(5, 1fr);"></div>
             <div class="row-labels" id="row-labels"></div>
-            <div class="block" id="block-right" style="grid-template-columns: repeat(6, 1fr);"></div>
+            <div class="block" id="block-right" style="grid-template-columns: repeat(5, 1fr);"></div>
         </div>
     </div>
 
@@ -511,7 +511,7 @@
         <div class="action-panel">
             <div class="stats">
                 Currently selected seats: <span id="selected-count">0</span><br>
-                Total occupied seats (Red): <span id="occupied-count">0</span> / 99
+                Total occupied seats (Red): <span id="occupied-count">0</span> / 70
             </div>
             <div class="btn-container">
                 <button class="btn btn-confirm" id="confirm-btn">Confirm Order</button>
@@ -570,14 +570,14 @@
                 labelEl.innerText = rowName;
                 rowLabelsContainer.appendChild(labelEl);
 
-                // Left Block: 6 seats (1 to 6)
-                for (let c = 1; c <= 6; c++) {
+                // Left Block: 5 seats (1 to 5)
+                for (let c = 1; c <= 5; c++) {
                     const seatId = `${rowName}${c}`;
                     blockLeftContainer.appendChild(createSeatElement(seatId));
                 }
 
-                // Right Block: 6 seats (7 to 12)
-                for (let c = 7; c <= 12; c++) {
+                // Right Block: 5 seats (6 to 10)
+                for (let c = 6; c <= 10; c++) {
                     const seatId = `${rowName}${c}`;
                     blockRightContainer.appendChild(createSeatElement(seatId));
                 }
